@@ -12,7 +12,12 @@ CORS(app)
 MONGO_URI = os.environ.get('MONGO_URI', 'mongodb://localhost:27017/')
 print(f"Connecting to MongoDB...")
 try:
-    client = MongoClient(MONGO_URI, serverSelectionTimeoutMS=5000)
+    client = MongoClient(
+        MONGO_URI, 
+        serverSelectionTimeoutMS=5000,
+        tls=True,
+        tlsAllowInvalidCertificates=True
+    )
     # Test connection
     client.admin.command('ping')
     print("MongoDB connection successful!")
