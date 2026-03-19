@@ -10,9 +10,17 @@ CORS(app)
 
 # MongoDB connection
 MONGO_URI = os.environ.get('MONGO_URI', 'mongodb://localhost:27017/')
-client = MongoClient(MONGO_URI)
-db = client['registration_db']
-registrations_collection = db['registrations']
+print(f"Connecting to MongoDB...")
+try:
+    client = MongoClient(MONGO_URI, serverSelectionTimeoutMS=5000)
+    # Test connection
+    client.admin.command('ping')
+    print("MongoDB connection successful!")
+    db = client['registration_db']
+    registrations_collection = db['registrations']
+except Exception as e:
+    print(f"MongoDB connection failed: {str(e)}")
+    raise
 
 def validate_email(email):
     pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
@@ -22,6 +30,7 @@ def validate_email(email):
 def register():
     try:
         data = request.get_json()
+        print(f"Received data: {data}")
         
         # Validate required fields
         required_fields = ['fullName', 'email', 'phone', 'dateOfBirth', 'gender', 
@@ -93,8 +102,11 @@ def register():
             return jsonify({'message': 'Failed to submit registration'}), 500
             
     except Exception as e:
-        print(f"Error: {str(e)}")
-        return jsonify({'message': 'Internal server error'}), 500
+        import traceback
+        error_msg = str(e)
+        print(f"Error in register: {error_msg}")
+        print(f"Traceback: {traceback.format_exc()}")
+        return jsonify({'message': f'Internal server error: {error_msg}'}), 500
 
 @app.route('/api/registrations', methods=['GET'])
 def get_registrations():
