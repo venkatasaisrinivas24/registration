@@ -9,12 +9,16 @@ app = Flask(__name__)
 CORS(app)
 
 # MongoDB connection
-MONGO_URI = os.environ.get('MONGO_URI', 'mongodb://localhost:27017/')
+MONGO_URI = os.environ.get('MONGO_URI')
+if not MONGO_URI:
+    MONGO_URI = 'mongodb+srv://srinivasvenkatasai23_db_user:PNNh4mcqvlFON306@cluster0.aadnott.mongodb.net/registration_db?retryWrites=true&w=majority&appName=Cluster0'
+
 print(f"Connecting to MongoDB...")
+print(f"Using URI: {MONGO_URI[:30]}...")  # Print first 30 chars for debugging
 try:
     client = MongoClient(
         MONGO_URI, 
-        serverSelectionTimeoutMS=5000,
+        serverSelectionTimeoutMS=10000,
         tls=True,
         tlsAllowInvalidCertificates=True
     )
