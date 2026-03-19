@@ -1,4 +1,5 @@
-const API_URL = 'https://your-backend-url.onrender.com'; // Replace with your Render backend URL
+// Get API URL from config
+const API_URL = CONFIG.API_URL;
 
 document.getElementById('registrationForm').addEventListener('submit', async (e) => {
     e.preventDefault();
