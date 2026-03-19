@@ -1,0 +1,13 @@
+{
+  "name": "registration-frontend",
+  "version": "1.0.0",
+  "description": "Registration form frontend",
+  "main": "index.html",
+  "scripts": {
+    "dev": "python -m http.server 3000",
+    "build": "echo 'No build step required for static HTML'"
+  },
+  "keywords": ["registration", "form", "frontend"],
+  "author": "",
+  "license": "MIT"
+}

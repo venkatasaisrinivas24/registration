@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: registration-backend
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: MONGO_URI
+        value: mongodb+srv://username:password@cluster.mongodb.net/registration_db?retryWrites=true&w=majority
